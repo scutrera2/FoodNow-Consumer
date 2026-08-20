@@ -20,9 +20,12 @@
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="you@email.com">
           </div>
-          <div class="mt-20 text-center text-secondary border-placeholder">
-            Add Stripe Element here!
+
+          <div class="mt-20 text-center text-secondary border-placeholder" id="payment-element">
+            <!--Add Stripe Element here! -->
+
           </div>
+          
           <div class="mt-20">
             <button type="submit" class="btn btn-lg btn-block btn-primary">Pay $<span class="amount" data-amount="{{amount}}"></span></button>
           </div>
