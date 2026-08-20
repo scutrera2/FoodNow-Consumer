@@ -24,12 +24,12 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
-/**
- * Checkout route
+/** SGC
+ * Function getBookDetail 
  */
-app.get('/checkout', function(req, res) {
-  // Just hardcoding amounts here to avoid using a database
-  const item = req.query.item;
+
+  function getBookDetails(item) {
+
   let title, amount, error;
 
   switch (item) {
@@ -50,11 +50,24 @@ app.get('/checkout', function(req, res) {
       error = "No item selected"      
       break;
   }
+  return { title, amount, error };
+};
+
+
+
+/**
+ * Checkout route
+ */
+app.get('/checkout', function(req, res) {
+  // Just hardcoding amounts here to avoid using a database
+  const item = req.query.item;
+
+  const bookDetail = getBookDetails(item)
 
   res.render('checkout', {
-    title: title,
-    amount: amount,
-    error: error
+    title: bookDetail.title,
+    amount: bookDetail.amount,
+    error: bookDetail.error
   });
 });
 
