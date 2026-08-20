@@ -1,4 +1,4 @@
-# Take home project
+# Take home project - Sergio Cutrera
 This is a simple e-commerce application that a customer can use to purchase a book, but it's missing the payments functionality —  your goal is to integrate Stripe to get this application running!
 
 ## Candidate instructions
