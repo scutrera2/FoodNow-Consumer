@@ -2,7 +2,8 @@ const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 require('dotenv').config();
-const stripe = require('stripe');
+//const stripe = require('stripe');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 var app = express();
 
