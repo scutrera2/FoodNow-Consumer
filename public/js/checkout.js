@@ -3,7 +3,11 @@ const stripe = Stripe("pk_test_51U61hdHvGiXgV60j10vt3hd3MX1owQDd4BYLRFsD5w8YS46a
 
 
 // The items the customer wants to buy
-const items = [{ id: "xl-tshirt", amount: 1000 }];
+//const items = [{ id: "xl-tshirt", amount: 1000 }];
+
+const urlParams = new URLSearchParams(window.location.search);
+const item = urlParams.get('item');
+
 
 let elements;
 
@@ -18,7 +22,7 @@ async function initialize() {
   const response = await fetch("/create-payment-intent", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items }),
+    body: JSON.stringify({ item }),
   });
   const { clientSecret } = await response.json();
 
