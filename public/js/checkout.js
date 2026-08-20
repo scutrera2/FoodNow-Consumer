@@ -14,8 +14,10 @@ let elements;
 initialize();
 
 document
-  .querySelector("#payment-form")
+  .querySelector("[name=\"payment-form\"]")
   .addEventListener("submit", handleSubmit);
+
+  
 
 // Fetches a payment intent and captures the client secret
 async function initialize() {
@@ -41,13 +43,13 @@ async function initialize() {
 
 async function handleSubmit(e) {
   e.preventDefault();
-  setLoading(true);
+//  setLoading(true);
 
   const { error } = await stripe.confirmPayment({
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url: "http://localhost:4242/complete.html",
+      return_url: "http://localhost:3000/success",
     },
   });
 
@@ -62,7 +64,7 @@ async function handleSubmit(e) {
     showMessage("An unexpected error occurred.");
   }
 
-  setLoading(false);
+//  setLoading(false);
 }
 
 // ------- UI helpers -------
