@@ -1,13 +1,8 @@
 // This is your test publishable API key.
 const stripe = Stripe("pk_test_51U61hdHvGiXgV60j10vt3hd3MX1owQDd4BYLRFsD5w8YS46a8EQWesyt3iCWEIPYnP2DivCXVDk141RKsLvGUL2V00z5ttnZpM");
 
-
-// The items the customer wants to buy
-//const items = [{ id: "xl-tshirt", amount: 1000 }];
-
 const urlParams = new URLSearchParams(window.location.search);
 const item = urlParams.get('item');
-
 
 let elements;
 
