@@ -43,7 +43,7 @@ async function initialize() {
 
 async function handleSubmit(e) {
   e.preventDefault();
-//  setLoading(true);
+
 
   const { error } = await stripe.confirmPayment({
     elements,
@@ -59,37 +59,11 @@ async function handleSubmit(e) {
   // be redirected to an intermediate site first to authorize the payment, then
   // redirected to the `return_url`.
   if (error.type === "card_error" || error.type === "validation_error") {
-  //  showMessage(error.message);
     alert(error.message);
-  
   } else {
-  //  showMessage("An unexpected error occurred.");
     alert("An unexpected error occurred.");
     
 }
 
-//  setLoading(false);
 }
 
-// ------- UI helpers -------
-
-function showMessage(messageText) {
-  const messageContainer = document.querySelector("#payment-message");
-
-  messageContainer.classList.remove("hidden");
-  messageContainer.textContent = messageText;
-}
-
-// Show a spinner on payment submission
-function setLoading(isLoading) {
-  if (isLoading) {
-    // Disable the button and show a spinner
-    document.querySelector("#submit").disabled = true;
-    document.querySelector("#spinner").classList.remove("hidden");
-    document.querySelector("#button-text").classList.add("hidden");
-  } else {
-    document.querySelector("#submit").disabled = false;
-    document.querySelector("#spinner").classList.add("hidden");
-    document.querySelector("#button-text").classList.remove("hidden");
-  }
-}
