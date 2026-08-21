@@ -29,7 +29,7 @@ app.get('/', function(req, res) {
  */
 
   function getBookDetails(item) {
-
+  // Just hardcoding amounts here to avoid using a database
   let title, amount, error;
 
   switch (item) {
@@ -59,7 +59,7 @@ app.get('/', function(req, res) {
  * Checkout route
  */
 app.get('/checkout', function(req, res) {
-  // Just hardcoding amounts here to avoid using a database
+  
   const item = req.query.item;
 
   const bookDetail = getBookDetails(item)
