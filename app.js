@@ -94,12 +94,22 @@ app.post("/create-payment-intent", async (req, res) => {
 
 
 
-/**
+/** SGC
  * Success route
  */
-app.get('/success', function(req, res) {
-  res.render('success');
+app.get('/success', async(req, res)  => {
+  
+  const payment_intent = req.query.payment_intent;
+  const paymentIntent = await stripe.paymentIntents.retrieve(payment_intent);
+  
+
+  res.render('success', {
+    amount: paymentIntent.amount,
+    id: paymentIntent.id
+  });
 });
+
+
 
 /**
  * Start server
