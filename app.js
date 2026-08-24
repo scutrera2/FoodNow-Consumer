@@ -101,7 +101,7 @@ app.get('/success', async(req, res)  => {
   
   const payment_intent = req.query.payment_intent;
   const paymentIntent = await stripe.paymentIntents.retrieve(payment_intent);
-  console.log(paymentIntent);
+//  console.log(paymentIntent);  
 
   res.render('success', {
     amount: paymentIntent.amount,
