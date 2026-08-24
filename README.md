@@ -80,7 +80,7 @@ There are two separate programs running in two different places, and they do not
 
 They only talk to each other through normal web requests. This separation is the most important part of the design, and it is what makes the integration safe.
 
-### Security constrains
+### Two rules that keep the architecture safe
 
 **1. The browser never sends a price to the server.** It only sends a book number, like `"2"`. The server looks up the real price on its side. If it worked the other way, a customer could open the browser developer tools, change the price from $28.00 to $0.01, and the server would have no way to know the amount had been changed.
 
@@ -167,7 +167,7 @@ These can all be followed in the commit history.
 
 ### The Pay button did nothing, and the page reloaded instead
 
-When I clicked the Pay button did not start a payment. Instead the page reloaded and the book number disappeared from the address bar. The next request crashed the server.
+When I clicked the Pay button, it did not start a payment. Instead the page reloaded and the book number disappeared from the address bar. The next request crashed the server.
 
 Then I revised checkout.hbs file and I saw that  the browser reads a page from top to bottom. The `<script>` tag for `checkout.js` was placed above the form, so the script ran before the form existed on the page. It tried to attach itself to a form that was not there yet, and failed quietly. Because nothing was listening to the Pay button, the browser did what it does by default with a form: it reloaded the page and put the form fields into the address bar, replacing the book number.
 
