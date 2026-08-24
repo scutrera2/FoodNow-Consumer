@@ -21,7 +21,7 @@ The full history of how I built it, step by step, is in the commit history of th
 
 **1. Clone the repository and install the dependencies**
 
-```bash
+```
 git clone https://github.com/scutrera2/sa-takehome-project-node
 cd sa-takehome-project-node
 npm install
@@ -47,7 +47,7 @@ The `.env` file is not committed to the repository, so your keys stay private.
 
 **4. Start the application**
 
-```bash
+```
 npm start
 ```
 
