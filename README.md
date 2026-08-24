@@ -19,35 +19,41 @@ The full history of how I built it, step by step, is in the commit history of th
 
 ### Steps
 
-**1\. Clone the repository and install the dependencies**
+**1. Clone the repository and install the dependencies**
 
-git clone https://github.com/scutrera2/sa-takehome-project-node && cd sa-takehome-project-node
-
+```bash
+git clone https://github.com/scutrera2/sa-takehome-project-node
+cd sa-takehome-project-node
 npm install
+```
 
-**2\. Get your Stripe test keys**
+**2. Get your Stripe test keys**
 
 In the Stripe Dashboard, go to **Developers → API keys**. You need two keys:
 
-\- Secret key (sk\_test\_…): just for the server only, this should never be on the browser  
-\- Publishable key (pk\_test\_…): In the browser, it designed to be public
+- Secret key (sk_test_…): just for the server only, this should never be on the browser  
+- Publishable key (pk_test_…): In the browser, it designed to be public
 
-**3\. Create your `.env` file**
+**3. Create your `.env` file**
 
 Rename `sample.env` to `.env` and put your two keys in it:
 
-STRIPE\_SECRET\_KEY=sk\_test\_your\_key\_here  
-STRIPE\_PUBLISHABLE\_KEY=pk\_test\_your\_key\_here
+```
+STRIPE_SECRET_KEY=sk_test_your_key_here
+STRIPE_PUBLISHABLE_KEY=pk_test_your_key_here
+```
 
 The `.env` file is not committed to the repository, so your keys stay private.
 
-**4\. Start the application**
+**4. Start the application**
 
+```bash
 npm start
+```
 
 The app runs at `http://localhost:3000`.
 
-**5\. Make a test payment**
+**5. Make a test payment**
 
 Open `http://localhost:3000` and choose one of the three books. Use one of Stripe's test cards:
 
@@ -76,9 +82,9 @@ They only talk to each other through normal web requests. This separation is the
 
 ### Security constrains
 
-**1\. The browser never sends a price to the server.** It only sends a book number, like `"2"`. The server looks up the real price on its side. If it worked the other way, a customer could open the browser developer tools, change the price from $28.00 to $0.01, and the server would have no way to know the amount had been changed.
+**1. The browser never sends a price to the server.** It only sends a book number, like `"2"`. The server looks up the real price on its side. If it worked the other way, a customer could open the browser developer tools, change the price from $28.00 to $0.01, and the server would have no way to know the amount had been changed.
 
-**2\. The server never sees the card number.** When the customer types their card details, those details go directly from the browser to Stripe. They never pass through this application, which means the application never stores or handles raw card data.
+**2. The server never sees the card number.** When the customer types their card details, those details go directly from the browser to Stripe. They never pass through this application, which means the application never stores or handles raw card data.
 
 ### The flow, step by step
 
@@ -100,19 +106,19 @@ Step 9 is worth explaining. The address bar only contains the payment ID; a refe
 This project uses the **Payment Intents API**, which is what the exercise asked for. Four Stripe calls are involved:
 
 - **stripe.elements()** Loads Stripe's secure payment form into the page. ([https://docs.stripe.com/payments/payment-element](https://docs.stripe.com/payments/payment-element)) Runs on Browser  
-- **stripe.paymentIntents.create()** Creates the payment record in Stripe with the correct amount. ([https://docs.stripe.com/api/payment\_intents/create](https://docs.stripe.com/api/payment_intents/create)) Runs on Server  
-- **stripe.confirmPayment()** Sends the card details to Stripe and confirms the payment. ([https://docs.stripe.com/js/payment\_intents/confirm\_payment](https://docs.stripe.com/js/payment_intents/confirm_payment)) Runs on Browser  
-- **stripe.paymentIntents.retrieve()** Reads back the confirmed payment details for the confirmation page.( [https://docs.stripe.com/api/payment\_intents/retrieve](https://docs.stripe.com/api/payment_intents/retrieve) ) Runs on Server
+- **stripe.paymentIntents.create()** Creates the payment record in Stripe with the correct amount. ([https://docs.stripe.com/api/payment_intents/create](https://docs.stripe.com/api/payment_intents/create)) Runs on Server  
+- **stripe.confirmPayment()** Sends the card details to Stripe and confirms the payment. ([https://docs.stripe.com/js/payment_intents/confirm_payment](https://docs.stripe.com/js/payment_intents/confirm_payment)) Runs on Browser  
+- **stripe.paymentIntents.retrieve()** Reads back the confirmed payment details for the confirmation page.( [https://docs.stripe.com/api/payment_intents/retrieve](https://docs.stripe.com/api/payment_intents/retrieve) ) Runs on Server
 
-###  The files 
+### The files
 
-- [**app.js**](http://app.js)**:** The server. Holds the routes for the shop, the checkout page, the creation of the Payment Intent, and the confirmation page. This is the only file that uses the secret key.  
-- **public/js/[checkout.js](http://checkout.js):**  Runs in the browser. Loads the Stripe payment form and handles the Pay button. This file did not exist before;  it is the main new file in this integration.I rewrite the example from the Stripe docs (stripe-sample-code/public/checkout.js)  
+- **app.js**: The server. Holds the routes for the shop, the checkout page, the creation of the Payment Intent, and the confirmation page. This is the only file that uses the secret key.  
+- **public/js/checkout.js:**  Runs in the browser. Loads the Stripe payment form and handles the Pay button. This file did not exist before;  it is the main new file in this integration.I rewrite the example from the Stripe docs (stripe-sample-code/public/checkout.js)  
 - **views/index.hbs**: The shop page, with the three books.  
 - **views/checkout.hbs:** The checkout page, where the payment form is loaded.  
 - **views/success.hbs**: The confirmation page.  
 - **views/layouts/main.hbs:** The shared layout used by every page; the header, the styles, and the scripts that load on all pages.  
-- **public/js/[custom.js](http://custom.js):** A script that already existed in the project. It converts amounts from cents into dollars anywhere on the site.
+- **public/js/custom.js:** A script that already existed in the project. It converts amounts from cents into dollars anywhere on the site.
 
 There is no database in this project. The three books and their prices are written directly in `app.js`, using a simple lookup by book number.
 
@@ -150,7 +156,7 @@ I built and tested one piece at a time: first the price lookup, then creating th
 
 ### Documentation I used
 
-- [`docs.stripe.com/payments/quickstart-payment-intents`](https://docs.stripe.com/payments/quickstart-payment-intents) : the main guide I followed (Node \+ HTML version), and the source of the downloadable example I ran locally. The test card number also comes from here.  
+- [`docs.stripe.com/payments/quickstart-payment-intents`](https://docs.stripe.com/payments/quickstart-payment-intents) : the main guide I followed (Node + HTML version), and the source of the downloadable example I ran locally. The test card number also comes from here.  
 - [`docs.stripe.com/api/payment_intents/object`](https://docs.stripe.com/api/payment_intents/object) : the full list of fields on a Payment Intent, which is where I confirmed the exact field names for the amount and the ID.
 
 ---
@@ -181,30 +187,31 @@ My version of the confirmation page was putting the amount as plain text instead
 
 I realised that the checkout page was working OK, showing well the numbers, so use the same pattern the checkout page was already using. Then the existing script formats the amount for me, and I do not write the same conversion logic a second time.
 
-The bug was not in the code I wrote; it was in how my code interacted with code that was already there.   
+The bug was not in the code I wrote; it was in how my code interacted with code that was already there.
+
 ---
 
 ## Where I would take this next
 
 The application works, but a real store is not the same as a working demo. Some of these come from Stripe's own suggested next steps at the end of the quickstart guide.
 
-**1\. Add a database and a real book catalogue.** This is the most obvious first step. The three books and their prices are currently written into the code, which means adding or removing a book, or changing a price, requires editing the application and restarting it. A real store needs a proper catalogue in a database, and a way for someone non-technical to manage it; either building a small admin page, or using an existing e-commerce platform for the shop side and keeping Stripe for the payments.
+**1. Add a database and a real book catalogue.** This is the most obvious first step. The three books and their prices are currently written into the code, which means adding or removing a book, or changing a price, requires editing the application and restarting it. A real store needs a proper catalogue in a database, and a way for someone non-technical to manage it; either building a small admin page, or using an existing e-commerce platform for the shop side and keeping Stripe for the payments.
 
 The database is also needed for a second reason: the business should keep its own record of every order, linked to the Stripe payment ID. Right now, if you needed to know what a customer bought last month, the only record is inside Stripe. The business should have its own.
 
-**2\. Use webhooks instead of trusting the redirect.** Right now, the confirmation page trusts that the customer arrived there with a valid payment ID in the address. This is enough for what the page does today, which is only to show the customer what they paid. But it is not enough for anything more than that, for two reasons. The first is that it depends on the customer's browser coming back. If they close the tab, lose their internet connection, or their phone dies right after paying, the payment still succeeds at Stripe, but the application never finds out. The second is that anyone can type that page address by hand, so arriving there does not by itself prove a payment was made. 
+**2. Use webhooks instead of trusting the redirect.** Right now, the confirmation page trusts that the customer arrived there with a valid payment ID in the address. This is enough for what the page does today, which is only to show the customer what they paid. But it is not enough for anything more than that, for two reasons. The first is that it depends on the customer's browser coming back. If they close the tab, lose their internet connection, or their phone dies right after paying, the payment still succeeds at Stripe, but the application never finds out. The second is that anyone can type that page address by hand, so arriving there does not by itself prove a payment was made. 
 
 The solution, which Stripe recommends in the same quickstart guide I followed ([docs.stripe.com/payments/quickstart-payment-intents](https://docs.stripe.com/payments/quickstart-payment-intents)), is a webhook. A webhook works in the opposite direction to the rest of the integration: instead of my server calling Stripe, Stripe calls my server directly, machine to machine, whenever a payment succeeds, is still processing, or fails. The customer's browser is not involved at all. It is a normal route in the application, with one extra step: every message has to be checked to confirm it really came from Stripe before acting on it. Webhooks also become necessary, not just safer, if the shop ever accepts payment methods other than cards. Some of those take hours or days to complete, so there is no moment where the browser can report the result. The webhook is the only way to know. I have built this pattern before in my own project, described at the end of this document, where a webhook activates and cancels subscriptions without the customer needing to return to the site.
 
-**3\. Show errors properly on the page.** Payment errors currently appear in a browser pop-up. They should appear inside the page, next to the form, in the same style as the rest of the site. The pop-up was a deliberate shortcut to get the payment flow working and tested first.
+**3. Show errors properly on the page.** Payment errors currently appear in a browser pop-up. They should appear inside the page, next to the form, in the same style as the rest of the site. The pop-up was a deliberate shortcut to get the payment flow working and tested first.
 
-**4\. Send a receipt by email.** Stripe can email a receipt automatically after a successful payment, using the business's own logo and colours. This is a setting in the Stripe Dashboard rather than new code; it is one of the options Stripe suggests once a payment integration is working, and it is something I have already turned on and used in my own project.
+**4. Send a receipt by email.** Stripe can email a receipt automatically after a successful payment, using the business's own logo and colours. This is a setting in the Stripe Dashboard rather than new code; it is one of the options Stripe suggests once a payment integration is working, and it is something I have already turned on and used in my own project.
 
-**5\. Fulfil the order automatically.** At the moment the payment succeeds and nothing else happens; nobody is told to send the book. This is the webhook from point 2 doing its second job: not just confirming the payment happened, but safely triggering what comes next, since (unlike the redirect)  it cannot be faked by someone just visiting the confirmation page. In a real store that usually means talking to another system; a warehouse, a delivery company, or a digital download service. That integration is outside this application, but the webhook is the correct place to start it from. 
+**5. Fulfil the order automatically.** At the moment the payment succeeds and nothing else happens; nobody is told to send the book. This is the webhook from point 2 doing its second job: not just confirming the payment happened, but safely triggering what comes next, since (unlike the redirect)  it cannot be faked by someone just visiting the confirmation page. In a real store that usually means talking to another system; a warehouse, a delivery company, or a digital download service. That integration is outside this application, but the webhook is the correct place to start it from. 
 
-**6\. Collect the billing address.** The payment form currently asks only for what is strictly needed to take the payment. A real store normally needs a full billing address, and a shipping address for physical books. Stripe provides an Address Element for this that works alongside the payment form.
+**6. Collect the billing address.** The payment form currently asks only for what is strictly needed to take the payment. A real store normally needs a full billing address, and a shipping address for physical books. Stripe provides an Address Element for this that works alongside the payment form.
 
-**7\. Handle refunds and disputes.** A real business needs a way to refund a customer, and a process for responding when a customer disputes a charge with their bank. Stripe provides both, but they need to be built into the application and into the way the business works.
+**7. Handle refunds and disputes.** A real business needs a way to refund a customer, and a process for responding when a customer disputes a charge with their bank. Stripe provides both, but they need to be built into the application and into the way the business works.
 
 ---
 
