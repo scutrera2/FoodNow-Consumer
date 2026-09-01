@@ -34,15 +34,15 @@ app.get('/', function(req, res) {
 
   switch (item) {
     case '1':
-      title = "The Art of Doing Science and Engineering"
+      title = "Grilled Salmon with Lemon Butter"
       amount = 2300      
       break;
     case '2':
-      title = "The Making of Prince of Persia: Journals 1985-1993"
+      title = "Wood-Fired Margherita Pizza"
       amount = 2500
       break;     
     case '3':
-      title = "Working in Public: The Making and Maintenance of Open Source"
+      title = "Slow-Braised Beef Ramen"
       amount = 2800  
       break;     
     default:
