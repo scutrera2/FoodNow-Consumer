@@ -1,5 +1,5 @@
 // This is your test publishable API key.
-const stripe = Stripe("pk_test_51U61hdHvGiXgV60j10vt3hd3MX1owQDd4BYLRFsD5w8YS46a8EQWesyt3iCWEIPYnP2DivCXVDk141RKsLvGUL2V00z5ttnZpM");
+const stripe = Stripe("pk_test_51U9hJGPAIV8qeHKWOO9FOgJPPsqHmtRjBppPxERVsUwiBQKHAUffpsgW00owNNaH9f4653dLvCVB98n8qQAivCNj001qqpZX85");
 
 const urlParams = new URLSearchParams(window.location.search);
 const item = urlParams.get('item');
