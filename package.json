@@ -1,7 +1,7 @@
 {
-  "name": "sa-takehome-project-node",
+  "name": "foodnow-consumer",
   "version": "1.0.0",
-  "description": "SA Takehome Project",
+  "description": "FoodNow consumer ordering demo",
   "scripts": {
     "start": "node app.js"
   },
